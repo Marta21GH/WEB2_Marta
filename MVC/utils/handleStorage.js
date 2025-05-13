@@ -13,10 +13,3 @@ callback(null, filename)
 })
 const uploadMiddleware = multer({storage}) //Middleware entre la ruta y el controlador
 module.exports = uploadMiddleware
-En routers/storage.js
-const express = require("express")
-const router = express.Router();
-const uploadMiddleware = require("../utils/handleStorage")
-const { createItem } = require("../controllers/storage")
-router.post("/", uploadMiddleware.single("image"), createItem)
-module.exports = router;

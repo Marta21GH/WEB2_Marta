@@ -35,5 +35,4 @@ router.patch(
 router.get("/me", verifyToken, getUserProfile);
 router.delete("/me", verifyToken, deleteUser);
 
-
 module.exports = router;
