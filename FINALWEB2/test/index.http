@@ -1,3 +1,5 @@
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjMxOGQzM2I0NTg5MmMwZjg1Mzk2NyIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzEzMDY4MSwiZXhwIjoxNzQ3MTM0MjgxfQ.2V4Q32ibcMvlA9QFBQ0sSm6CixjTzFNnF-g9rvdroEQ
+
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
@@ -9,11 +11,11 @@ Content-Type: application/json
 
 ### Validar email
 POST http://localhost:3000/api/auth/validate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDMwNywiZXhwIjoxNzQyMzA3OTA3fQ.BgeHzEEWaRNZd-Hd846ftoSTaxCtVe1vPlXnEMCp8Hs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjMxOGQzM2I0NTg5MmMwZjg1Mzk2NyIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzEzMDU3OSwiZXhwIjoxNzQ3MTM0MTc5fQ.LtYHPovdLVtF64QrNLWw42FsBJ47C6JatvUUdclJSBc
 Content-Type: application/json
 
 {
-  "code": "317157"
+  "code": "529051"
 }
 
 ### Login de usuario
@@ -27,7 +29,7 @@ Content-Type: application/json
 
 ### Onboarding - Datos personales
 PUT http://localhost:3000/api/users/onboarding/personal
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+Authorization: {{ token }}
 Content-Type: application/json
 
 {
@@ -38,7 +40,7 @@ Content-Type: application/json
 
 ### Onboarding - Datos de compañía
 PATCH http://localhost:3000/api/users/onboarding/company
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+Authorization: {{ token }}
 Content-Type: application/json
 
 {
@@ -50,12 +52,62 @@ Content-Type: application/json
 
 ### Obtener datos del usuario desde el token
 GET http://localhost:3000/api/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+Authorization: {{ token }}
 
 ### Borrado lógico de usuario
 DELETE http://localhost:3000/api/users/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+Authorization: {{ token }}
 
 ### Borrado físico de usuario
 DELETE http://localhost:3000/api/users/me?soft=false
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+Authorization: {{ token }}
+
+### FINAL ###
+
+@clientId = 68231c67f2741e635bfab490
+
+### Crear Cliente
+POST http://localhost:3000/api/client
+Authorization: {{ token }}
+Content-Type: application/json
+
+{
+  "nombre": "Cliente Ejemplo",
+  "email": "cliente@ejemplo.com",
+  "telefono": "123456789",
+  "direccion": "Calle Falsa 123"
+}
+
+### Actualizar Cliente
+PUT http://localhost:3000/api/client/{{clientId}}
+Authorization: {{ token }}
+Content-Type: application/json
+
+{
+  "nombre": "Cliente Actualizado",
+  "telefono": "987654321"
+}
+
+### Listar Todos los Clientes
+GET http://localhost:3000/api/client
+Authorization: {{ token }}
+
+### Obtener Cliente por ID
+GET http://localhost:3000/api/client/{{clientId}}
+Authorization: {{ token }}
+
+### Eliminar Cliente (Soft Delete)
+DELETE http://localhost:3000/api/client/{{clientId}}
+Authorization: {{ token }}
+
+### Eliminar Cliente (Hard Delete)
+DELETE http://localhost:3000/api/client/{{clientId}}?hard=true
+Authorization: {{ token }}
+
+### Listar Clientes Archivados
+GET http://localhost:3000/api/client/archived
+Authorization: {{ token }}
+
+### Recuperar Cliente Archivado
+PATCH http://localhost:3000/api/client/{{clientId}}/restore
+Authorization: {{ token }}

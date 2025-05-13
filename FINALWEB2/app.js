@@ -9,6 +9,7 @@ connectDB();
 // Importar rutas
 const userRoutes = require("./routes/user.routes");
 const authRoutes = require("./routes/auth.routes");
+const clientRoutes = require("./routes/client.routes"); // NUEVO
 
 // Inicializar la aplicación
 const app = express();
@@ -24,6 +25,7 @@ app.use("/uploads", express.static("uploads"));
 // Rutas
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/client", clientRoutes); // NUEVO
 
 // Ruta de prueba
 app.get("/", (req, res) => {
