@@ -1,0 +1,61 @@
+### Registro de usuario
+POST http://localhost:3000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "test4@example.com",
+  "password": "MiContraseña123"
+}
+
+### Validar email
+POST http://localhost:3000/api/auth/validate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDMwNywiZXhwIjoxNzQyMzA3OTA3fQ.BgeHzEEWaRNZd-Hd846ftoSTaxCtVe1vPlXnEMCp8Hs
+Content-Type: application/json
+
+{
+  "code": "317157"
+}
+
+### Login de usuario
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test4@example.com",
+  "password": "MiContraseña123"
+}
+
+### Onboarding - Datos personales
+PUT http://localhost:3000/api/users/onboarding/personal
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+Content-Type: application/json
+
+{
+  "nombre": "Marta",
+  "apellidos": "Prieto Rodríguez de Vera",
+  "nif": "12345678A"
+}
+
+### Onboarding - Datos de compañía
+PATCH http://localhost:3000/api/users/onboarding/company
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+Content-Type: application/json
+
+{
+  "nombreEmpresa": "InterWeb S.L.",
+  "cif": "B12345678",
+  "direccion": "Calle Ejemplo 123, Madrid",
+  "telefono": "912345678"
+}
+
+### Obtener datos del usuario desde el token
+GET http://localhost:3000/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+
+### Borrado lógico de usuario
+DELETE http://localhost:3000/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
+
+### Borrado físico de usuario
+DELETE http://localhost:3000/api/users/me?soft=false
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDk3NDMzYWI3M2Q3ZjQ4YThiNDRkNCIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0MjMwNDM2OCwiZXhwIjoxNzQyMzA3OTY4fQ.Rm-KSneRA6EhSMeqnJbF12hPgf5EGVh_NLmeLz_O0Lg
