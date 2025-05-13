@@ -1,4 +1,4 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjMxOGQzM2I0NTg5MmMwZjg1Mzk2NyIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzEzMDY4MSwiZXhwIjoxNzQ3MTM0MjgxfQ.2V4Q32ibcMvlA9QFBQ0sSm6CixjTzFNnF-g9rvdroEQ
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjMxOGQzM2I0NTg5MmMwZjg1Mzk2NyIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzEzODc1NCwiZXhwIjoxNzQ3MTQyMzU0fQ.7nOSIzM-q-OPGDyvQqzMkQDlOieu6IPoYkoROOGtd7I
 
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register
@@ -64,7 +64,7 @@ Authorization: {{ token }}
 
 ### FINAL ###
 
-@clientId = 68231c67f2741e635bfab490
+@clientId = 682338de63d335683d87d7ef
 
 ### Crear Cliente
 POST http://localhost:3000/api/client
@@ -110,4 +110,51 @@ Authorization: {{ token }}
 
 ### Recuperar Cliente Archivado
 PATCH http://localhost:3000/api/client/{{clientId}}/restore
+Authorization: {{ token }}
+
+@projectId = 68233841887daa5f3db9c1bb
+
+### Crear Proyecto
+POST http://localhost:3000/api/project
+Authorization: {{ token }}
+Content-Type: application/json
+
+{
+  "nombre": "Proyecto Ejemplo",
+  "descripcion": "Este es un proyecto de ejemplo",
+  "cliente": "{{ clientId }}"
+}
+
+### Actualizar Proyecto
+PUT http://localhost:3000/api/project/{{projectId}}
+Authorization: {{ token }}
+Content-Type: application/json
+
+{
+  "nombre": "Proyecto Actualizado",
+  "descripcion": "Descripción actualizada del proyecto"
+}
+
+### Listar Todos los Proyectos
+GET http://localhost:3000/api/project
+Authorization: {{ token }}
+
+### Obtener Proyecto por ID
+GET http://localhost:3000/api/project/{{projectId}}
+Authorization: {{ token }}
+
+### Eliminar Proyecto (Soft Delete)
+DELETE http://localhost:3000/api/project/{{projectId}}
+Authorization: {{ token }}
+
+### Eliminar Proyecto (Hard Delete)
+DELETE http://localhost:3000/api/project/{{projectId}}?hard=true
+Authorization: {{ token }}
+
+### Listar Proyectos Archivados
+GET http://localhost:3000/api/project/archived
+Authorization: {{ token }}
+
+### Restaurar Proyecto Archivado
+PATCH http://localhost:3000/api/project/{{projectId}}/restore
 Authorization: {{ token }}

@@ -17,14 +17,14 @@ const {
 
 const router = express.Router();
 
+// RUTA DE CLIENTES ARCHIVADOS - DEBE ESTAR ANTES QUE /:id
+router.get("/archived", verifyToken, listArchivedClients);
+
 // Crear Cliente
 router.post("/", verifyToken, createClientValidator, createClient);
 
 // Actualizar Cliente
 router.put("/:id", verifyToken, clientIdValidator, updateClientValidator, updateClient);
-
-// Listar Todos los Clientes
-router.get("/", verifyToken, listClients);
 
 // Obtener Cliente por ID
 router.get("/:id", verifyToken, clientIdValidator, getClientById);
@@ -32,10 +32,10 @@ router.get("/:id", verifyToken, clientIdValidator, getClientById);
 // Eliminar Cliente (Soft/Hard)
 router.delete("/:id", verifyToken, clientIdValidator, deleteClient);
 
-// Listar Clientes Archivados
-router.get("/archived", verifyToken, listArchivedClients);
-
-// Recuperar Cliente Archivado
+// Restaurar Cliente Archivado
 router.patch("/:id/restore", verifyToken, clientIdValidator, restoreClient);
+
+// Listar Todos los Clientes
+router.get("/", verifyToken, listClients);
 
 module.exports = router;
