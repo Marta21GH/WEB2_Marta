@@ -10,7 +10,8 @@ connectDB();
 const userRoutes = require("./routes/user.routes");
 const authRoutes = require("./routes/auth.routes");
 const clientRoutes = require("./routes/client.routes");
-const projectRoutes = require("./routes/project.routes"); // NUEVO
+const projectRoutes = require("./routes/project.routes");
+const deliveryNoteRoutes = require("./routes/deliverynote.routes"); // NUEVO
 
 // Inicializar la aplicación
 const app = express();
@@ -27,7 +28,8 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/client", clientRoutes);
-app.use("/api/project", projectRoutes); // NUEVO
+app.use("/api/project", projectRoutes);
+app.use("/api/deliverynote", deliveryNoteRoutes); // NUEVO
 
 // Ruta de prueba
 app.get("/", (req, res) => {

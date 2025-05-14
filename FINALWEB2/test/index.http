@@ -1,5 +1,4 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjMxOGQzM2I0NTg5MmMwZjg1Mzk2NyIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzEzODc1NCwiZXhwIjoxNzQ3MTQyMzU0fQ.7nOSIzM-q-OPGDyvQqzMkQDlOieu6IPoYkoROOGtd7I
-
+@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjRkMGJjMjhhYjc1ZGFmNDYxMGM2OSIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzI0MzE5NiwiZXhwIjoxNzQ3MjQ2Nzk2fQ.-rP5psWYY2-tR7WwnpuGo--nrx8P3kFZ6XW4tlUYjr8
 ### Registro de usuario
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
@@ -15,7 +14,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjMxOGQzM
 Content-Type: application/json
 
 {
-  "code": "529051"
+  "code": "453672"
 }
 
 ### Login de usuario
@@ -64,7 +63,7 @@ Authorization: {{ token }}
 
 ### FINAL ###
 
-@clientId = 682338de63d335683d87d7ef
+@clientId = 6824cf138928fcb4811ee99a
 
 ### Crear Cliente
 POST http://localhost:3000/api/client
@@ -112,7 +111,7 @@ Authorization: {{ token }}
 PATCH http://localhost:3000/api/client/{{clientId}}/restore
 Authorization: {{ token }}
 
-@projectId = 682338f663d335683d87d7f8
+@projectId = 6824cf1f8928fcb4811ee99e
 
 ### Crear Proyecto
 POST http://localhost:3000/api/project
@@ -157,4 +156,72 @@ Authorization: {{ token }}
 
 ### Restaurar Proyecto Archivado
 PATCH http://localhost:3000/api/project/{{projectId}}/restore
+Authorization: {{ token }}
+
+@deliveryNoteId = 6824cf2a8928fcb4811ee9a2
+
+### Crear Albarán de Horas
+POST http://localhost:3000/api/deliverynote
+Authorization: {{ token }}
+Content-Type: application/json
+
+{
+  "tipo": "horas",
+  "descripcion": "Albarán de horas trabajadas",
+  "horas": 8,
+  "proyecto": "{{ projectId }}"
+}
+
+### Crear Albarán de Materiales
+POST http://localhost:3000/api/deliverynote
+Authorization: {{ token }}
+Content-Type: application/json
+
+{
+  "tipo": "materiales",
+  "descripcion": "Albarán de materiales utilizados",
+  "materiales": [
+    { "nombre": "Cemento", "cantidad": 5 },
+    { "nombre": "Ladrillos", "cantidad": 100 }
+  ],
+  "proyecto": "{{ projectId }}"
+}
+
+### Actualizar Albarán
+PUT http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
+Authorization: {{ token }}
+Content-Type: application/json
+
+{
+  "descripcion": "Albarán actualizado",
+  "horas": 10,
+  "firmado": true
+}
+
+### Listar Todos los Albaranes
+GET http://localhost:3000/api/deliverynote
+Authorization: {{ token }}
+
+### Obtener Albarán por ID
+GET http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
+Authorization: {{ token }}
+
+### Eliminar Albarán (Soft Delete)
+DELETE http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
+Authorization: {{ token }}
+
+### Verificar que el Albarán está Archivado
+GET http://localhost:3000/api/deliverynote/archived
+Authorization: {{ token }}
+
+### Recuperar Albarán Archivado
+PATCH http://localhost:3000/api/deliverynote/{{deliveryNoteId}}/restore
+Authorization: {{ token }}
+
+### Eliminar Albarán (Hard Delete)
+DELETE http://localhost:3000/api/deliverynote/{{deliveryNoteId}}?hard=true
+Authorization: {{ token }}
+
+### Verificar que el Albarán ya no existe
+GET http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
 Authorization: {{ token }}
