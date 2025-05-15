@@ -7,6 +7,8 @@ const {
   deleteDeliveryNote,
   listArchivedDeliveryNotes,
   restoreDeliveryNote,
+  generateDeliveryNotePDF, 
+  downloadPDF,              
 } = require("../controllers/deliverynote.controller");
 const { verifyToken } = require("../middlewares/auth.middleware");
 const {
@@ -37,5 +39,11 @@ router.delete("/:id", verifyToken, deliveryNoteIdValidator, deleteDeliveryNote);
 
 // Restaurar Albarán Archivado
 router.patch("/:id/restore", verifyToken, deliveryNoteIdValidator, restoreDeliveryNote);
+
+// Generación de PDF del Albarán
+router.post("/:id/pdf", verifyToken, deliveryNoteIdValidator, generateDeliveryNotePDF);
+
+// Descargar PDF del Albarán
+router.get("/:id/pdf", verifyToken, deliveryNoteIdValidator, downloadPDF);
 
 module.exports = router;

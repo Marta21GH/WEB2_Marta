@@ -1,85 +1,94 @@
-@token = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjRkMGJjMjhhYjc1ZGFmNDYxMGM2OSIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzI0MzE5NiwiZXhwIjoxNzQ3MjQ2Nzk2fQ.-rP5psWYY2-tR7WwnpuGo--nrx8P3kFZ6XW4tlUYjr8
-### Registro de usuario
+### VARIABLES INICIALES
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjYwNTg3MGQzNGMxYmVjNjIxOTYyMSIsImVtYWlsIjoibnVldm9AZWplbXBsby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzMyMjI3MSwiZXhwIjoxNzQ3MzI1ODcxfQ.BVpAFFu9NGGGeMcMpb4lE1C7INcF4Uec6y9AFPF09yc
+@clientId = 682605b20d34c1bec621962a
+@projectId = 682605cc0d34c1bec6219633
+@deliveryNoteId = 682605e50d34c1bec621963f
+
+##############################
+# 1. USUARIOS (AUTENTICACIÓN) #
+##############################
+
+### Registro de Usuario
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "test4@example.com",
+  "email": "nuevo@ejemplo.com",
   "password": "MiContraseña123"
 }
 
-### Validar email
+### Validar Email
 POST http://localhost:3000/api/auth/validate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjMxOGQzM2I0NTg5MmMwZjg1Mzk2NyIsImVtYWlsIjoidGVzdDRAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzEzMDU3OSwiZXhwIjoxNzQ3MTM0MTc5fQ.LtYHPovdLVtF64QrNLWw42FsBJ47C6JatvUUdclJSBc
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "code": "453672"
+  "code": "350914"
 }
 
-### Login de usuario
+### Login de Usuario
 POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "test4@example.com",
+  "email": "nuevo@ejemplo.com",
   "password": "MiContraseña123"
 }
 
-### Onboarding - Datos personales
+### Onboarding - Datos Personales
 PUT http://localhost:3000/api/users/onboarding/personal
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "nombre": "Marta",
-  "apellidos": "Prieto Rodríguez de Vera",
+  "nombre": "Juan",
+  "apellidos": "Pérez",
   "nif": "12345678A"
 }
 
-### Onboarding - Datos de compañía
+### Onboarding - Datos de Compañía
 PATCH http://localhost:3000/api/users/onboarding/company
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "nombreEmpresa": "InterWeb S.L.",
+  "nombreEmpresa": "Empresa Ejemplo",
   "cif": "B12345678",
-  "direccion": "Calle Ejemplo 123, Madrid",
+  "direccion": "Calle Ejemplo 123",
   "telefono": "912345678"
 }
 
-### Obtener datos del usuario desde el token
+### Obtener Perfil de Usuario
 GET http://localhost:3000/api/users/me
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
-### Borrado lógico de usuario
+### Borrado Lógico de Usuario
 DELETE http://localhost:3000/api/users/me
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
-### Borrado físico de usuario
+### Borrado Físico de Usuario
 DELETE http://localhost:3000/api/users/me?soft=false
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
-### FINAL ###
-
-@clientId = 6824cf138928fcb4811ee99a
+#########################
+# 2. CLIENTES (CRUD)     #
+#########################
 
 ### Crear Cliente
 POST http://localhost:3000/api/client
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "nombre": "Cliente Ejemplo",
-  "email": "cliente@ejemplo.com",
+  "email": "cliente2@ejemplo.com",
   "telefono": "123456789",
   "direccion": "Calle Falsa 123"
 }
 
 ### Actualizar Cliente
 PUT http://localhost:3000/api/client/{{clientId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -89,92 +98,96 @@ Content-Type: application/json
 
 ### Listar Todos los Clientes
 GET http://localhost:3000/api/client
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Obtener Cliente por ID
 GET http://localhost:3000/api/client/{{clientId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Eliminar Cliente (Soft Delete)
 DELETE http://localhost:3000/api/client/{{clientId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Eliminar Cliente (Hard Delete)
 DELETE http://localhost:3000/api/client/{{clientId}}?hard=true
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Listar Clientes Archivados
 GET http://localhost:3000/api/client/archived
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Recuperar Cliente Archivado
 PATCH http://localhost:3000/api/client/{{clientId}}/restore
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
-@projectId = 6824cf1f8928fcb4811ee99e
+#########################
+# 3. PROYECTOS (CRUD)    #
+#########################
 
 ### Crear Proyecto
 POST http://localhost:3000/api/project
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "nombre": "Proyecto Ejemplo",
-  "descripcion": "Este es un proyecto de ejemplo",
-  "cliente": "{{ clientId }}"
+  "descripcion": "Desarrollo de aplicación",
+  "cliente": "{{clientId}}"
 }
 
 ### Actualizar Proyecto
 PUT http://localhost:3000/api/project/{{projectId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "nombre": "Proyecto Actualizado",
-  "descripcion": "Descripción actualizada del proyecto"
+  "descripcion": "Proyecto con nuevas funcionalidades"
 }
 
 ### Listar Todos los Proyectos
 GET http://localhost:3000/api/project
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Obtener Proyecto por ID
 GET http://localhost:3000/api/project/{{projectId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Eliminar Proyecto (Soft Delete)
 DELETE http://localhost:3000/api/project/{{projectId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Eliminar Proyecto (Hard Delete)
 DELETE http://localhost:3000/api/project/{{projectId}}?hard=true
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Listar Proyectos Archivados
 GET http://localhost:3000/api/project/archived
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
-### Restaurar Proyecto Archivado
+### Recuperar Proyecto Archivado
 PATCH http://localhost:3000/api/project/{{projectId}}/restore
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
-@deliveryNoteId = 6824cf2a8928fcb4811ee9a2
+##############################
+# 4. ALBARANES (DELIVERY NOTES) #
+##############################
 
 ### Crear Albarán de Horas
 POST http://localhost:3000/api/deliverynote
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "tipo": "horas",
   "descripcion": "Albarán de horas trabajadas",
   "horas": 8,
-  "proyecto": "{{ projectId }}"
+  "proyecto": "{{projectId}}"
 }
 
 ### Crear Albarán de Materiales
 POST http://localhost:3000/api/deliverynote
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -184,12 +197,20 @@ Content-Type: application/json
     { "nombre": "Cemento", "cantidad": 5 },
     { "nombre": "Ladrillos", "cantidad": 100 }
   ],
-  "proyecto": "{{ projectId }}"
+  "proyecto": "{{projectId}}"
 }
+
+### Generar PDF del Albarán
+POST http://localhost:3000/api/deliverynote/{{deliveryNoteId}}/pdf
+Authorization: Bearer {{token}}
+
+### Descargar PDF del Albarán
+GET http://localhost:3000/api/deliverynote/{{deliveryNoteId}}/pdf
+Authorization: Bearer {{token}}
 
 ### Actualizar Albarán
 PUT http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -200,28 +221,20 @@ Content-Type: application/json
 
 ### Listar Todos los Albaranes
 GET http://localhost:3000/api/deliverynote
-Authorization: {{ token }}
-
-### Obtener Albarán por ID
-GET http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Eliminar Albarán (Soft Delete)
 DELETE http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
-Authorization: {{ token }}
-
-### Verificar que el Albarán está Archivado
-GET http://localhost:3000/api/deliverynote/archived
-Authorization: {{ token }}
-
-### Recuperar Albarán Archivado
-PATCH http://localhost:3000/api/deliverynote/{{deliveryNoteId}}/restore
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
 ### Eliminar Albarán (Hard Delete)
 DELETE http://localhost:3000/api/deliverynote/{{deliveryNoteId}}?hard=true
-Authorization: {{ token }}
+Authorization: Bearer {{token}}
 
-### Verificar que el Albarán ya no existe
-GET http://localhost:3000/api/deliverynote/{{deliveryNoteId}}
-Authorization: {{ token }}
+### Listar Albaranes Archivados
+GET http://localhost:3000/api/deliverynote/archived
+Authorization: Bearer {{token}}
+
+### Recuperar Albarán Archivado
+PATCH http://localhost:3000/api/deliverynote/{{deliveryNoteId}}/restore
+Authorization: Bearer {{token}}

@@ -1,6 +1,8 @@
 const DeliveryNote = require("../models/deliverynote.model");
 const Project = require("../models/project.model");
 const { validationResult } = require("express-validator");
+const generatePDF = require("../services/pdfGenerator");
+const path = require("path");
 
 // Crear Albarán
 const createDeliveryNote = async (req, res) => {
@@ -123,11 +125,54 @@ const listArchivedDeliveryNotes = async (req, res) => {
 const restoreDeliveryNote = async (req, res) => {
   try {
     const { id } = req.params;
-    await DeliveryNote.findByIdAndUpdate(id, { archivado: false }, { new: true });
-    res.status(200).json({ message: "Albarán restaurado" });
+    const deliveryNote = await DeliveryNote.findByIdAndUpdate(id, { archivado: false }, { new: true });
+
+    if (!deliveryNote) {
+      return res.status(404).json({ message: "Albarán no encontrado" });
+    }
+
+    res.status(200).json({ message: "Albarán restaurado", deliveryNote });
   } catch (error) {
     console.error("Error al restaurar albarán:", error);
     res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
+// Generar PDF del Albarán
+const generateDeliveryNotePDF = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deliveryNote = await DeliveryNote.findById(id).populate("proyecto usuario");
+
+    if (!deliveryNote) {
+      return res.status(404).json({ message: "Albarán no encontrado" });
+    }
+
+    const pdfUrl = await generatePDF(deliveryNote);
+    deliveryNote.pdfUrl = pdfUrl;
+    await deliveryNote.save();
+
+    res.status(200).json({ message: "PDF generado correctamente", pdfUrl });
+  } catch (error) {
+    console.error("Error al generar PDF:", error);
+    res.status(500).json({ message: "Error al generar el PDF" });
+  }
+};
+
+// Descargar PDF del Albarán
+const downloadPDF = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deliveryNote = await DeliveryNote.findById(id);
+    if (!deliveryNote || !deliveryNote.pdfUrl) {
+      return res.status(404).json({ message: "PDF no encontrado" });
+    }
+
+    const filePath = path.join(__dirname, "..", deliveryNote.pdfUrl);
+    res.download(filePath);
+  } catch (error) {
+    console.error("Error al descargar PDF:", error);
+    res.status(500).json({ message: "Error al descargar el PDF" });
   }
 };
 
@@ -139,4 +184,6 @@ module.exports = {
   deleteDeliveryNote,
   listArchivedDeliveryNotes,
   restoreDeliveryNote,
+  generateDeliveryNotePDF, 
+  downloadPDF,            
 };
