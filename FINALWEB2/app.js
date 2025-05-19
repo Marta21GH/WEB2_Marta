@@ -4,6 +4,9 @@ const cors = require("cors");
 const morgan = require("morgan");
 require("dotenv").config();
 
+// Swagger
+const { swaggerUi, swaggerSpec } = require("./config/swagger"); // Importar Swagger
+
 connectDB();
 
 // Importar rutas
@@ -23,6 +26,10 @@ app.use(morgan("dev"));
 
 // Servir carpeta de uploads
 app.use("/uploads", express.static("uploads"));
+
+// Documentación Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+console.log("📑 Documentación Swagger disponible en: http://localhost:3000/api-docs");
 
 // Rutas
 app.use("/api/users", userRoutes);

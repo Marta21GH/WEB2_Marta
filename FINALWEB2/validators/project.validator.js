@@ -1,44 +1,22 @@
 const { body, param } = require("express-validator");
 
-// Validación para crear un proyecto
 const createProjectValidator = [
-  body("nombre")
-    .notEmpty()
-    .withMessage("El nombre del proyecto es obligatorio"),
-  body("descripcion")
-    .optional()
-    .isString()
-    .withMessage("La descripción debe ser un texto"),
-  body("cliente")
-    .isMongoId()
-    .withMessage("El ID del cliente no es válido")
+  body("nombre").notEmpty().withMessage("El nombre es obligatorio"),
+  body("descripcion").optional().isString().withMessage("La descripción debe ser un texto"),
+  body("cliente").notEmpty().withMessage("El ID del cliente es obligatorio"),
 ];
 
-// Validación para actualizar un proyecto
 const updateProjectValidator = [
-  body("nombre")
-    .optional()
-    .notEmpty()
-    .withMessage("El nombre no puede estar vacío"),
-  body("descripcion")
-    .optional()
-    .isString()
-    .withMessage("La descripción debe ser un texto"),
-  body("cliente")
-    .optional()
-    .isMongoId()
-    .withMessage("El ID del cliente no es válido")
+  body("nombre").optional().isString().withMessage("El nombre debe ser un texto"),
+  body("descripcion").optional().isString().withMessage("La descripción debe ser un texto"),
 ];
 
-// Validación para el ID del proyecto
 const projectIdValidator = [
-  param("id")
-    .isMongoId()
-    .withMessage("El ID del proyecto no es válido")
+  param("id").isMongoId().withMessage("El ID del proyecto debe ser un ObjectId válido"),
 ];
 
 module.exports = {
   createProjectValidator,
   updateProjectValidator,
-  projectIdValidator
+  projectIdValidator,
 };

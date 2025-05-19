@@ -92,11 +92,9 @@ const deleteProject = async (req, res) => {
     const { hard } = req.query;
 
     if (hard === "true") {
-      // Eliminación física (hard delete)
       await Project.findByIdAndDelete(id);
       return res.status(200).json({ message: "Proyecto eliminado permanentemente" });
     } else {
-      // Eliminación lógica (soft delete)
       const project = await Project.findByIdAndUpdate(id, { archivado: true }, { new: true });
       if (!project) {
         return res.status(404).json({ message: "Proyecto no encontrado" });
@@ -121,7 +119,7 @@ const listArchivedProjects = async (req, res) => {
   }
 };
 
-// Recuperar Proyecto Archivado
+// Restaurar Proyecto Archivado
 const restoreProject = async (req, res) => {
   try {
     const { id } = req.params;

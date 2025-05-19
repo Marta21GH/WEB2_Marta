@@ -19,31 +19,198 @@ const {
 
 const router = express.Router();
 
-// RUTA DE ALBARANES ARCHIVADOS - DEBE ESTAR ANTES QUE /:id
-router.get("/archived", verifyToken, listArchivedDeliveryNotes);
+/**
+ * @swagger
+ * tags:
+ *   name: Albaranes
+ *   description: Gestión de Albaranes
+ */
 
-// Crear Albarán
+/**
+ * @swagger
+ * /api/deliverynote:
+ *   post:
+ *     summary: Crear un nuevo albarán
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               tipo:
+ *                 type: string
+ *                 enum: [horas, materiales]
+ *               descripcion:
+ *                 type: string
+ *               horas:
+ *                 type: number
+ *               materiales:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     nombre:
+ *                       type: string
+ *                     cantidad:
+ *                       type: number
+ *               proyecto:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Albarán creado correctamente
+ *       400:
+ *         description: Error de validación
+ */
 router.post("/", verifyToken, createDeliveryNoteValidator, createDeliveryNote);
 
-// Actualizar Albarán
-router.put("/:id", verifyToken, deliveryNoteIdValidator, updateDeliveryNoteValidator, updateDeliveryNote);
-
-// Listar Todos los Albaranes
+/**
+ * @swagger
+ * /api/deliverynote:
+ *   get:
+ *     summary: Listar todos los albaranes
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     responses:
+ *       200:
+ *         description: Lista de albaranes
+ */
 router.get("/", verifyToken, listDeliveryNotes);
 
-// Obtener Albarán por ID
+/**
+ * @swagger
+ * /api/deliverynote/{id}:
+ *   get:
+ *     summary: Obtener un albarán por ID
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del albarán
+ *     responses:
+ *       200:
+ *         description: Albarán encontrado
+ *       404:
+ *         description: Albarán no encontrado
+ */
 router.get("/:id", verifyToken, deliveryNoteIdValidator, getDeliveryNoteById);
 
-// Eliminar Albarán (Soft/Hard)
+/**
+ * @swagger
+ * /api/deliverynote/{id}:
+ *   put:
+ *     summary: Actualizar un albarán existente
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del albarán
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               descripcion:
+ *                 type: string
+ *               horas:
+ *                 type: number
+ *               materiales:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     nombre:
+ *                       type: string
+ *                     cantidad:
+ *                       type: number
+ *     responses:
+ *       200:
+ *         description: Albarán actualizado
+ *       404:
+ *         description: Albarán no encontrado
+ */
+router.put("/:id", verifyToken, deliveryNoteIdValidator, updateDeliveryNoteValidator, updateDeliveryNote);
+
+/**
+ * @swagger
+ * /api/deliverynote/{id}:
+ *   delete:
+ *     summary: Eliminar un albarán (Soft o Hard Delete)
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del albarán
+ *       - in: query
+ *         name: hard
+ *         required: false
+ *         schema:
+ *           type: boolean
+ *         description: Si es true, elimina permanentemente
+ *     responses:
+ *       200:
+ *         description: Albarán eliminado (soft o hard)
+ *       404:
+ *         description: Albarán no encontrado
+ */
 router.delete("/:id", verifyToken, deliveryNoteIdValidator, deleteDeliveryNote);
 
-// Restaurar Albarán Archivado
+/**
+ * @swagger
+ * /api/deliverynote/archived:
+ *   get:
+ *     summary: Listar albaranes archivados
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     responses:
+ *       200:
+ *         description: Lista de albaranes archivados
+ */
+router.get("/archived", verifyToken, listArchivedDeliveryNotes);
+
+/**
+ * @swagger
+ * /api/deliverynote/{id}/restore:
+ *   patch:
+ *     summary: Restaurar un albarán archivado
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del albarán
+ *     responses:
+ *       200:
+ *         description: Albarán restaurado
+ *       404:
+ *         description: Albarán no encontrado
+ */
 router.patch("/:id/restore", verifyToken, deliveryNoteIdValidator, restoreDeliveryNote);
-
-// Generación de PDF del Albarán
-router.post("/:id/pdf", verifyToken, deliveryNoteIdValidator, generateDeliveryNotePDF);
-
-// Descargar PDF del Albarán
-router.get("/:id/pdf", verifyToken, deliveryNoteIdValidator, downloadPDF);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 ### VARIABLES INICIALES
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MjYwNTg3MGQzNGMxYmVjNjIxOTYyMSIsImVtYWlsIjoibnVldm9AZWplbXBsby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzMyMjI3MSwiZXhwIjoxNzQ3MzI1ODcxfQ.BVpAFFu9NGGGeMcMpb4lE1C7INcF4Uec6y9AFPF09yc
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmI1M2IzMzBiZThjNjI1MTAwMjhjYyIsImVtYWlsIjoibnVldm9AZWplbXBsby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzY2OTk2MCwiZXhwIjoxNzQ3NjczNTYwfQ.twKpfAqFrwYE-coZA1CIXoxQRay26R6NXtTJPhL63oY
 @clientId = 682605b20d34c1bec621962a
 @projectId = 682605cc0d34c1bec6219633
 @deliveryNoteId = 682605e50d34c1bec621963f
@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "code": "350914"
+  "code": "224421"
 }
 
 ### Login de Usuario
