@@ -1,8 +1,8 @@
 ### VARIABLES INICIALES
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmJhMDNjOTFjYzA0ZTgwYTI1ZWM0ZiIsImVtYWlsIjoibnVldm9AZWplbXBsby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzY4OTU2NywiZXhwIjoxNzQ3NjkzMTY3fQ.BJGHsVD1SEwL9m3lBn8Mp-xTV_Z-ixUtaiypSf_9_3I
-@clientId = 682b988246b1ae55cea1ed5f
-@projectId = 682b98b646b1ae55cea1ed67
-@deliveryNoteId = 682b9a5646b1ae55cea1ed81
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmJhYTE4Yzg0ZmVjNzcxZGJkYjhmZiIsImVtYWlsIjoibnVldm8xQGVqZW1wbG8uY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NDc2OTIwODEsImV4cCI6MTc0NzY5NTY4MX0.z_oHqQVwabl8Kz_KALF5wLBVua0YQ1p73_AMCFA1KC4
+@clientId = 682baa76c84fec771dbdb90b
+@projectId = 682ba9cfc84fec771dbdb8ef
+@deliveryNoteId = 682ba9e4c84fec771dbdb8f4
 
 ##############################
 # 1. USUARIOS (AUTENTICACIÓN) #
@@ -13,7 +13,7 @@ POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "nuevo@ejemplo.com",
+  "email": "nuevo1@ejemplo.com",
   "password": "MiContraseña123"
 }
 
@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "code": "464543"
+  "code": "509955"
 }
 
 ### Login de Usuario
@@ -31,7 +31,7 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "nuevo@ejemplo.com",
+  "email": "nuevo1@ejemplo.com",
   "password": "MiContraseña123"
 }
 
@@ -81,7 +81,7 @@ Content-Type: application/json
 
 {
   "nombre": "Cliente Ejemplo",
-  "email": "cliente2@ejemplo.com",
+  "email": "cliente1@ejemplo.com",
   "telefono": "123456789",
   "direccion": "Calle Falsa 123"
 }
