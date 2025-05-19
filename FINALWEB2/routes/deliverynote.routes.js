@@ -213,4 +213,27 @@ router.get("/archived", verifyToken, listArchivedDeliveryNotes);
  */
 router.patch("/:id/restore", verifyToken, deliveryNoteIdValidator, restoreDeliveryNote);
 
+/**
+ * @swagger
+ * /api/deliverynote/{id}/pdf:
+ *   post:
+ *     summary: Generar el PDF de un albarán
+ *     security:
+ *       - bearerAuth: []
+ *     tags: [Albaranes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del albarán
+ *     responses:
+ *       200:
+ *         description: PDF generado correctamente
+ *       404:
+ *         description: Albarán no encontrado
+ */
+router.post("/:id/pdf", verifyToken, generateDeliveryNotePDF);
+
 module.exports = router;

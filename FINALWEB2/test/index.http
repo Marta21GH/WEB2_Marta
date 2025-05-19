@@ -1,8 +1,8 @@
 ### VARIABLES INICIALES
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmI1M2IzMzBiZThjNjI1MTAwMjhjYyIsImVtYWlsIjoibnVldm9AZWplbXBsby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzY2OTk2MCwiZXhwIjoxNzQ3NjczNTYwfQ.twKpfAqFrwYE-coZA1CIXoxQRay26R6NXtTJPhL63oY
-@clientId = 682605b20d34c1bec621962a
-@projectId = 682605cc0d34c1bec6219633
-@deliveryNoteId = 682605e50d34c1bec621963f
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmJhMDNjOTFjYzA0ZTgwYTI1ZWM0ZiIsImVtYWlsIjoibnVldm9AZWplbXBsby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0NzY4OTU2NywiZXhwIjoxNzQ3NjkzMTY3fQ.BJGHsVD1SEwL9m3lBn8Mp-xTV_Z-ixUtaiypSf_9_3I
+@clientId = 682b988246b1ae55cea1ed5f
+@projectId = 682b98b646b1ae55cea1ed67
+@deliveryNoteId = 682b9a5646b1ae55cea1ed81
 
 ##############################
 # 1. USUARIOS (AUTENTICACIÓN) #
@@ -23,7 +23,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "code": "224421"
+  "code": "464543"
 }
 
 ### Login de Usuario
