@@ -34,33 +34,23 @@ const createClient = async (req, res) => {
   }
 };
 
-// Actualizar Cliente
+// Actualizar cliente
 const updateClient = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     const { id } = req.params;
-    const { nombre, email, telefono, direccion } = req.body;
-
-    const client = await Client.findByIdAndUpdate(
-      id,
-      { nombre, email, telefono, direccion },
+    const usuarioId = req.user.id;
+    const updatedClient = await Client.findOneAndUpdate(
+      { _id: id, usuario: usuarioId },
+      req.body,
       { new: true }
     );
-
-    if (!client) {
-      return res.status(404).json({ message: "Cliente no encontrado" });
-    }
-
-    res.status(200).json({ message: "Cliente actualizado", client });
+    if (!updatedClient) return res.status(404).json({ message: "Cliente no encontrado" });
+    res.status(200).json({ message: "Cliente actualizado", client: updatedClient });
   } catch (error) {
-    console.error("Error al actualizar cliente:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
+
 
 // Listar Todos los Clientes Activos
 const listClients = async (req, res) => {
@@ -74,43 +64,32 @@ const listClients = async (req, res) => {
   }
 };
 
-// Obtener Cliente por ID
+// Obtener cliente por ID
 const getClientById = async (req, res) => {
   try {
     const { id } = req.params;
-    const client = await Client.findById(id);
-
-    if (!client) {
-      return res.status(404).json({ message: "Cliente no encontrado" });
-    }
-
+    const usuarioId = req.user.id;
+    const client = await Client.findOne({ _id: id, usuario: usuarioId });
+    if (!client) return res.status(404).json({ message: "Cliente no encontrado" });
     res.status(200).json(client);
   } catch (error) {
-    console.error("Error al obtener cliente:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
-// Eliminar Cliente (Soft/Hard Delete)
+// Eliminar cliente
 const deleteClient = async (req, res) => {
   try {
     const { id } = req.params;
-    const { hard } = req.query;
-
-    if (hard === "true") {
-      // Eliminación física (hard delete)
-      await Client.findByIdAndDelete(id);
-      return res.status(200).json({ message: "Cliente eliminado permanentemente" });
-    } else {
-      // Eliminación lógica (soft delete)
-      const client = await Client.findByIdAndUpdate(id, { archivado: true }, { new: true });
-      if (!client) {
-        return res.status(404).json({ message: "Cliente no encontrado" });
-      }
-      return res.status(200).json({ message: "Cliente archivado", client });
-    }
+    const usuarioId = req.user.id;
+    const deleted = await Client.findOneAndUpdate(
+      { _id: id, usuario: usuarioId },
+      { archivado: true },
+      { new: true }
+    );
+    if (!deleted) return res.status(404).json({ message: "Cliente no encontrado" });
+    res.status(200).json({ message: "Cliente archivado" });
   } catch (error) {
-    console.error("Error al eliminar cliente:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };

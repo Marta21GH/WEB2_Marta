@@ -33,25 +33,19 @@ const createProject = async (req, res) => {
   }
 };
 
-// Actualizar Proyecto
+// Actualizar proyecto
 const updateProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nombre, descripcion } = req.body;
-
-    const project = await Project.findByIdAndUpdate(
-      id,
-      { nombre, descripcion },
+    const usuarioId = req.user.id;
+    const updatedProject = await Project.findOneAndUpdate(
+      { _id: id, usuario: usuarioId },
+      req.body,
       { new: true }
     );
-
-    if (!project) {
-      return res.status(404).json({ message: "Proyecto no encontrado" });
-    }
-
-    res.status(200).json({ message: "Proyecto actualizado", project });
+    if (!updatedProject) return res.status(404).json({ message: "Proyecto no encontrado" });
+    res.status(200).json({ message: "Proyecto actualizado", project: updatedProject });
   } catch (error) {
-    console.error("Error al actualizar proyecto:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
@@ -68,41 +62,32 @@ const listProjects = async (req, res) => {
   }
 };
 
-// Obtener Proyecto por ID
+// Obtener proyecto por ID
 const getProjectById = async (req, res) => {
   try {
     const { id } = req.params;
-    const project = await Project.findById(id).populate("cliente");
-
-    if (!project) {
-      return res.status(404).json({ message: "Proyecto no encontrado" });
-    }
-
+    const usuarioId = req.user.id;
+    const project = await Project.findOne({ _id: id, usuario: usuarioId }).populate("cliente");
+    if (!project) return res.status(404).json({ message: "Proyecto no encontrado" });
     res.status(200).json(project);
   } catch (error) {
-    console.error("Error al obtener proyecto:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
-// Eliminar Proyecto (Soft/Hard Delete)
+// Eliminar proyecto
 const deleteProject = async (req, res) => {
   try {
     const { id } = req.params;
-    const { hard } = req.query;
-
-    if (hard === "true") {
-      await Project.findByIdAndDelete(id);
-      return res.status(200).json({ message: "Proyecto eliminado permanentemente" });
-    } else {
-      const project = await Project.findByIdAndUpdate(id, { archivado: true }, { new: true });
-      if (!project) {
-        return res.status(404).json({ message: "Proyecto no encontrado" });
-      }
-      return res.status(200).json({ message: "Proyecto archivado", project });
-    }
+    const usuarioId = req.user.id;
+    const deleted = await Project.findOneAndUpdate(
+      { _id: id, usuario: usuarioId },
+      { archivado: true },
+      { new: true }
+    );
+    if (!deleted) return res.status(404).json({ message: "Proyecto no encontrado" });
+    res.status(200).json({ message: "Proyecto archivado" });
   } catch (error) {
-    console.error("Error al eliminar proyecto:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };

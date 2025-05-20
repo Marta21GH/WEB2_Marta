@@ -38,25 +38,19 @@ const createDeliveryNote = async (req, res) => {
   }
 };
 
-// Actualizar Albarán
+// Actualizar albarán
 const updateDeliveryNote = async (req, res) => {
   try {
     const { id } = req.params;
-    const { descripcion, horas, materiales, firmado } = req.body;
-
-    const deliveryNote = await DeliveryNote.findByIdAndUpdate(
-      id,
-      { descripcion, horas, materiales, firmado },
+    const usuarioId = req.user.id;
+    const deliveryNote = await DeliveryNote.findOneAndUpdate(
+      { _id: id, usuario: usuarioId },
+      req.body,
       { new: true }
     );
-
-    if (!deliveryNote) {
-      return res.status(404).json({ message: "Albarán no encontrado" });
-    }
-
+    if (!deliveryNote) return res.status(404).json({ message: "Albarán no encontrado" });
     res.status(200).json({ message: "Albarán actualizado", deliveryNote });
   } catch (error) {
-    console.error("Error al actualizar albarán:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
@@ -73,38 +67,37 @@ const listDeliveryNotes = async (req, res) => {
   }
 };
 
-// Obtener Albarán por ID
+// Obtener albarán por ID
 const getDeliveryNoteById = async (req, res) => {
   try {
     const { id } = req.params;
-    const deliveryNote = await DeliveryNote.findById(id).populate("proyecto");
-
-    if (!deliveryNote) {
-      return res.status(404).json({ message: "Albarán no encontrado" });
-    }
-
+    const usuarioId = req.user.id;
+    const deliveryNote = await DeliveryNote.findOne({ _id: id, usuario: usuarioId }).populate("proyecto");
+    if (!deliveryNote) return res.status(404).json({ message: "Albarán no encontrado" });
     res.status(200).json(deliveryNote);
   } catch (error) {
-    console.error("Error al obtener albarán:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
 
-// Eliminar Albarán (Soft/Hard Delete)
+// Eliminar albarán
 const deleteDeliveryNote = async (req, res) => {
   try {
     const { id } = req.params;
     const { hard } = req.query;
+    const usuarioId = req.user.id;
+
+    const deliveryNote = await DeliveryNote.findOne({ _id: id, usuario: usuarioId });
+    if (!deliveryNote) return res.status(404).json({ message: "Albarán no encontrado" });
 
     if (hard === "true") {
       await DeliveryNote.findByIdAndDelete(id);
       return res.status(200).json({ message: "Albarán eliminado permanentemente" });
     } else {
-      await DeliveryNote.findByIdAndUpdate(id, { archivado: true }, { new: true });
+      await DeliveryNote.findByIdAndUpdate(id, { archivado: true });
       return res.status(200).json({ message: "Albarán archivado" });
     }
   } catch (error) {
-    console.error("Error al eliminar albarán:", error);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
